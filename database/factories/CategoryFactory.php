@@ -17,6 +17,7 @@ class CategoryFactory extends Factory
         return [
             'name' => $this->faker->name,
             'description' => Str::random(10),
+            'uuid' => Str::orderedUuid(),
         ];
     }
 }

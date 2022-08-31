@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Models\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +17,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1')->name('api.v1.')->group(function() {
-    Route::get('version', function() {
-        return 'this is version v1';
-    })->name('version');
+    Route::get('category', [CategoryController::class,'show'])->name('category.index');
+
+    Route::post('category',[CategoryController::class,'store']);
+    Route::delete('category/{uuid}',[CategoryController::class,'destoroy']);
 });
 
 Route::prefix('v2')->name('api.v2.')->group(function() {
@@ -25,3 +28,12 @@ Route::prefix('v2')->name('api.v2.')->group(function() {
         return 'this is version v2';
     })->name('version');
 });
+
+Route::fallback(function () {
+    return Response()->json([
+        'error' => true,
+        'msg' => '请求错误',
+        'data' => []
+    ],400);
+});
+

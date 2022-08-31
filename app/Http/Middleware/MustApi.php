@@ -18,9 +18,10 @@ class MustApi
     public function handle(Request $request, Closure $next)
     {
         if($request->is('api/*')){
-
+            $request->headers->set('Accept','application/json');
             return $next($request);
         }else{
+
             return Response()->json([
                 'error' => true,
                 'msg' => '请求错误',
