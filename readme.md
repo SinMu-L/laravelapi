@@ -2,13 +2,13 @@
 
 - [x] 数据填充
 
-- [ ] 导航栏查询
+- [x] 导航栏查询
 
 - [ ] 导航栏修改
 
-- [ ] 导航栏删除
+- [x] 导航栏删除
 
-- [ ] 导航栏添加
+- [x] 导航栏添加
 
 -----
 
@@ -31,6 +31,17 @@
         Route::delete('category/{uuid}',[CategoryController::class,'destroy']);
     });
     ```
+> 被截胡了，将两个路由更换位置即可 
+
+    Route::prefix('v1')->name('api.v1.')->group(function() {
+        Route::delete('category/{uuid}',[CategoryController::class,'destroy']);
+        Route::get('category', [CategoryController::class,'show'])->name('category.index');
+
+        Route::post('category',[CategoryController::class,'store']);
+    });
+
+
+
 
 2. 我每个请求都有错误返回，有没有是么办法可以统一设置我的错误处理或者统一错误返回结果
 > 这个值得一试：https://learnku.com/docs/laravel-api-dev/8.0/unified-interface-return-value-processing/9532
@@ -44,3 +55,6 @@
 
     我的期望结果是。有没有什么办法 让我可以请求 `api/v1/category/:uuid`，然后在 `CategoryController`里面写这个参数 `CategoryController(Category category)`,而不是 `CategoryController($uuid)`
 
+> 这里可以通过[自定义解析逻辑](https://learnku.com/docs/laravel/9.x/routing/12209#a3b485)来解决问题
+> 
+> 看文档一定要仔细！！！

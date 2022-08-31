@@ -62,26 +62,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($uuid , Request $request)
+    public function destroy(Category $category, Request $request)
     {
-        if(!$uuid){
-            return response()->json([
-                'error' => true,
-                'msg' => '参数错误'
-            ],404);
-        }
-
-        $category = Category::where('uuid','=',$uuid);
-
-        if($category->get()->count() ){
-            $category->delete();
-            return response(null,204);
-        }else{
-            return response()->json([
-                'error' => true,
-                'msg' => '参数错误'
-            ],404);
-        }
-
+        // dd($category->get());
+        dd($category->delete());
+        return response(null,204);
     }
 }

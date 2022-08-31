@@ -11,4 +11,14 @@ class Category extends Model
 
     protected $table = 'category';
 
+
+    // 自定义解析逻辑
+    public function resolveRouteBinding($value, $field = null)
+    {
+        if(!$field){
+            $field = 'uuid';
+        }
+        return $this->where($field, $value)->firstOrFail();
+    }
+
 }
