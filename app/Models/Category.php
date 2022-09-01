@@ -11,6 +11,11 @@ class Category extends Model
 
     protected $table = 'category';
 
+    protected $fillable = [
+        'name',
+        'description'
+    ];
+
 
     // 自定义解析逻辑
     public function resolveRouteBinding($value, $field = null)

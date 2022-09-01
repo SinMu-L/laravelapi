@@ -13,20 +13,26 @@ class CategoryController extends Controller
 {
     use ValidatesRequests;
 
+
+    public function index(Request $request){
+
+        return $this->success(collect(Category::paginate())->toArray());
+    }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Category $cagtegory)
+    public function store(Request $request, Category $category)
     {
         $data = $request->all();
-        $cagtegory->name = $data['name'];
-        $cagtegory->description = $data['description'];
-        $cagtegory->uuid = Str::orderedUuid();
-        $cagtegory->save();
-        return new CategoryResource($cagtegory);
+        $category->name = $data['name'];
+        $category->description = $data['description'];
+        $category->uuid = Str::orderedUuid();
+        $category->save();
+        return new CategoryResource($category);
     }
 
     /**
@@ -35,10 +41,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(Category $category)
     {
-        // $this->validateWith()
-        return CategoryResource::collection(Category::paginate());
+        return new CategoryResource($category);
 
     }
 
@@ -51,9 +56,21 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Category $category, Request $request)
     {
-        //
+
+
+        $update_arr = [];
+        $request->get('name') ? $update_arr['name']=$request->get('name'):false;
+        $request->get('description') ? $update_arr['description']=$request->get('description'):false;
+        if(!empty($update_arr)){
+            // dd($category);
+            $category->update($update_arr);
+        }else{
+            return $this->failed(20001,'数据格式错误');
+
+        }
+
     }
 
     /**
@@ -64,7 +81,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category, Request $request)
     {
-        // dd($category->get());
+        dd($category->get());
         dd($category->delete());
         return response(null,204);
     }

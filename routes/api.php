@@ -17,10 +17,14 @@ use App\Models\Category;
 */
 
 Route::prefix('v1')->name('api.v1.')->group(function() {
-    Route::delete('category/{uuid}',[CategoryController::class,'destroy']);
-    Route::get('category', [CategoryController::class,'show'])->name('category.index');
+    Route::delete('category/{category}',[CategoryController::class,'destroy']);
+    Route::get('category',[CategoryController::class,'index'])->name('category.index');
+    Route::get('category/{category}', [CategoryController::class,'show'])->name('category.show');
 
     Route::post('category',[CategoryController::class,'store']);
+    Route::put('category/{category}',[CategoryController::class,'update'])->name('category.update');
+
+    // Route::resource('category','CategoryController');
 });
 
 Route::prefix('v2')->name('api.v2.')->group(function() {

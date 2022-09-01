@@ -33,18 +33,21 @@
     ```
 > 被截胡了，将两个路由更换位置即可 
 
+```php
     Route::prefix('v1')->name('api.v1.')->group(function() {
         Route::delete('category/{uuid}',[CategoryController::class,'destroy']);
         Route::get('category', [CategoryController::class,'show'])->name('category.index');
 
         Route::post('category',[CategoryController::class,'store']);
     });
+```
 
 
 
 
 2. 我每个请求都有错误返回，有没有是么办法可以统一设置我的错误处理或者统一错误返回结果
 > 这个值得一试：https://learnku.com/docs/laravel-api-dev/8.0/unified-interface-return-value-processing/9532
+> 
 > 也可以直接添加中间件 设置请求头 Accept:application/json
 
 3.  定义这样的路由 `api/v1/category/{category}` 。
@@ -58,3 +61,36 @@
 > 这里可以通过[自定义解析逻辑](https://learnku.com/docs/laravel/9.x/routing/12209#a3b485)来解决问题
 > 
 > 看文档一定要仔细！！！
+
+
+
+
+---
+
+
+4. 当前我换成下面的路由时，我的 destroy 方法里面dd的结果 和 我写的 category.index 一致
+> 我自定义了解析逻辑
+> model下面加了这个
+```php
+// 自定义解析逻辑
+    public function resolveRouteBinding($value, $field = null)
+    {
+        if(!$field){
+            $field = 'uuid';
+        }
+        return $this->where($field, $value)->firstOrFail();
+    }
+```
+
+
+```php
+Route::prefix('v1')->name('api.v1.')->group(function() {
+    Route::delete('category/{category}',[CategoryController::class,'destroy']);
+    Route::get('category',[CategoryController::class,'index'])->name('category.index');
+    Route::get('category/{category}', [CategoryController::class,'show'])->name('category.show');
+
+    Route::post('category',[CategoryController::class,'store']);
+    Route::put('category/{category}',[CategoryController::class,'update'])->name('category.update');
+
+    // Route::resource('category','CategoryController');
+});
