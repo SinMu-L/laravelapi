@@ -15,8 +15,9 @@ class CategoryController extends Controller
 
 
     public function index(Request $request){
-
-        return $this->success(collect(Category::paginate())->toArray());
+        return new CategoryResource(Category::all());
+//        return $category_resource;
+//        return $this->success(collect(Category::paginate())->toArray());
     }
 
     /**
