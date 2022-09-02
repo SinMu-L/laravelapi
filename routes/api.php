@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\VerificationCodeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Category;
@@ -24,7 +25,9 @@ Route::prefix('v1')->name('api.v1.')->group(function() {
     Route::post('category',[CategoryController::class,'store']);
     Route::put('category/{category}',[CategoryController::class,'update'])->name('category.update');
 
-    // Route::resource('category','CategoryController');
+    // 用户相关
+    // 验证码
+    Route::post('verificationCodes',[VerificationCodeController::class,'store'])->name('verificationCodes.store');
 });
 
 
