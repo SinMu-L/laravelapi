@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseRequest;
 
-class CategoryRequest extends FormRequest
+
+class CategoryRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,7 @@ class CategoryRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,10 +24,14 @@ class CategoryRequest extends FormRequest
      */
     public function rules()
     {
-        return $this->only([
-            'name' => 'required|string',
-            'description' => 'require|string',
-        ]);
+        // https://laravel.com/docs/5.3/validation#rule-required-without
+        // 验证两个字段必须有一个必填
+        // 龟龟，不能有空格
+        return [
+            'name' => 'required_without:description',
+            'description' => 'required_without:name',
+        ];
+
     }
 
     public function attributes()
@@ -36,4 +41,14 @@ class CategoryRequest extends FormRequest
             'description' => '描述',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required_without' => 'name 和 description 必须有一个必填',
+            'description.required_without' => 'name 和 description 必须有一个必填',
+        ];
+    }
+
+
 }

@@ -99,6 +99,33 @@ Route::prefix('v1')->name('api.v1.')->group(function() {
 > 修改了一下 resolveRouteBinding() 方法，默认就是uuid
 > 在model里面添加啦 protect $hidden=['id'] 。 这样就可以让返回的json数据不包含id
 
+
+
+-----
+
+还是不行呐，得统一API返回的规范
+## API返回规范
+```json
+// 请求正确的返回
+{
+    "status" : true,
+    "code" : 200,
+    "message" : "这里是错误信息",
+    "data" : []
+}
+
+// 请求错误返回
+{
+    "status" : false,
+    "code" : 201,
+    "message" : "这里是错误信息"
+}
+```
+在表单验证里面重写方法 failedValidation() 即可。
+前面我把统一的 请求加到了 controller里面，看来现在也要将这个 success 和 failed 方法写道一个 trait 里面
+
+
+
 -----
 
 接下来就是控制权限
@@ -108,3 +135,8 @@ category的权限如下
 - 有权限的人 可以通过 修改、删除、添加 category
 
 laravel中权限如何体现呢？
+假设先将权限抛开，权限的前提是不是得有用户信息。
+那么我理解为有用户的curd。
+- 用户的curd好像laravel有自己的一套逻辑。得找找，希望可以帮我建立用户相关登录注册curd逻辑
+
+

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Facade\FlareClient\Http\Response;
@@ -25,7 +26,7 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Category $category)
+    public function store(CategoryRequest $request, Category $category)
     {
         $data = $request->all();
         $category->name = $data['name'];
@@ -56,10 +57,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Category $category, Request $request)
+    public function update(Category $category, CategoryRequest $request)
     {
 
-
+        dd($request->all());
         $update_arr = [];
         $request->get('name') ? $update_arr['name']=$request->get('name'):false;
         $request->get('description') ? $update_arr['description']=$request->get('description'):false;
