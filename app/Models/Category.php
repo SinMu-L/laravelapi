@@ -16,14 +16,17 @@ class Category extends Model
         'description'
     ];
 
+    // 隐藏某个字段
+    protected $hidden = [
+        'id'
+    ];
+
 
     // 自定义解析逻辑
     public function resolveRouteBinding($value, $field = null)
     {
-        if(!$field){
-            $field = 'uuid';
-        }
-        return $this->where($field, $value)->firstOrFail();
+
+        return $this->where('uuid', $value)->firstOrFail();
     }
 
 }

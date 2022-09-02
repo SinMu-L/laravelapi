@@ -15,9 +15,8 @@ class CategoryController extends Controller
 
 
     public function index(Request $request){
-        return new CategoryResource(Category::all());
-//        return $category_resource;
-//        return $this->success(collect(Category::paginate())->toArray());
+
+       return $this->success(collect(Category::paginate())->toArray());
     }
 
     /**
@@ -82,8 +81,13 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category, Request $request)
     {
-        dd($category->get());
-        dd($category->delete());
-        return response(null,204);
+        // 这个就是会返回一个 Category 的model对象
+        // dd($category);
+
+        // 这个会返回一个collection，奇怪
+        // dd($category->get());
+
+        $category->delete();
+        return $this->success();
     }
 }
