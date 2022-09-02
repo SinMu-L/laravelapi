@@ -94,3 +94,17 @@ Route::prefix('v1')->name('api.v1.')->group(function() {
 
     // Route::resource('category','CategoryController');
 });
+```
+
+> 修改了一下 resolveRouteBinding() 方法，默认就是uuid
+> 在model里面添加啦 protect $hidden=['id'] 。 这样就可以让返回的json数据不包含id
+
+-----
+
+接下来就是控制权限
+category的权限如下
+- 无权限的人可以看到 category 的list 和单个的 category 的details
+    - 无权限的人是指没有授权 修改、删除、添加的人
+- 有权限的人 可以通过 修改、删除、添加 category
+
+laravel中权限如何体现呢？
