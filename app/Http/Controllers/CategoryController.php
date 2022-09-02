@@ -33,7 +33,7 @@ class CategoryController extends Controller
         $category->description = $data['description'];
         $category->uuid = Str::orderedUuid();
         $category->save();
-        return new CategoryResource($category);
+        return $this->success(collect($category)->toArray());
     }
 
     /**
@@ -44,7 +44,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return new CategoryResource($category);
+        return $this->success(collect($category)->toArray());
 
     }
 
@@ -60,13 +60,14 @@ class CategoryController extends Controller
     public function update(Category $category, CategoryRequest $request)
     {
 
-        dd($request->all());
+
         $update_arr = [];
         $request->get('name') ? $update_arr['name']=$request->get('name'):false;
         $request->get('description') ? $update_arr['description']=$request->get('description'):false;
         if(!empty($update_arr)){
             // dd($category);
             $category->update($update_arr);
+            return $this->success(collect($category)->toArray());
         }else{
             return $this->failed(20001,'数据格式错误');
 

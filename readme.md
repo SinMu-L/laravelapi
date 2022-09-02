@@ -85,11 +85,11 @@
 
 ```php
 Route::prefix('v1')->name('api.v1.')->group(function() {
-    Route::delete('category/{category}',[CategoryController::class,'destroy']);
+    Route::delete('category/{category}',[CategoryController::class,'destroy'])->name('category.destroy');
     Route::get('category',[CategoryController::class,'index'])->name('category.index');
     Route::get('category/{category}', [CategoryController::class,'show'])->name('category.show');
 
-    Route::post('category',[CategoryController::class,'store']);
+    Route::post('category',[CategoryController::class,'store'])->name('category.store');
     Route::put('category/{category}',[CategoryController::class,'update'])->name('category.update');
 
     // Route::resource('category','CategoryController');
@@ -99,6 +99,36 @@ Route::prefix('v1')->name('api.v1.')->group(function() {
 > 修改了一下 resolveRouteBinding() 方法，默认就是uuid
 > 在model里面添加啦 protect $hidden=['id'] 。 这样就可以让返回的json数据不包含id
 
+----
+补充一下 category 的所有请求
+```shell
+# category.index
+curl --location --request GET 'laravelapi.test/api/v1/category/'
+
+# category.show
+curl --location --request GET 'laravelapi.test/api/v1/category/:uuid'
+
+# category.destroy
+curl --location --request DELETE 'laravelapi.test/api/v1/category/:uuid'
+
+# category.store
+curl --location --request POST 'laravelapi.test/api/v1/category' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name":"test",
+    "description":"asdfasdfads",
+    "da":"asdf"
+}'
+
+# category.update
+curl --location --request PUT 'laravelapi.test/api/v1/category/9726669b-b8ff-4cf3-a6ed-f028f2da254e' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name":"hello1",
+    "description" : "test"
+}'
+
+```
 
 
 -----
@@ -138,5 +168,7 @@ laravel中权限如何体现呢？
 假设先将权限抛开，权限的前提是不是得有用户信息。
 那么我理解为有用户的curd。
 - 用户的curd好像laravel有自己的一套逻辑。得找找，希望可以帮我建立用户相关登录注册curd逻辑
+
+用API做用户登录和注册的话，应该要对接验证码和手机号。
 
 
