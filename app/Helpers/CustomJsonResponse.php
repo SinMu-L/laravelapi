@@ -15,7 +15,7 @@ trait CustomJsonResponse{
         ]);
     }
 
-    public function failed($code, $message, bool $status = false)
+    public function failed( $message,$code = Response::HTTP_OK, bool $status = false)
     {
         return response()->json([
             'status' => $status,

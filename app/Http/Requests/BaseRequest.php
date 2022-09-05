@@ -24,6 +24,6 @@ class BaseRequest extends FormRequest
     {
         $message = $validator->errors()->first();
 
-        throw  new HttpResponseException($this->failed(201,$message));
+        throw  new HttpResponseException($this->failed($message,201));
     }
 }
