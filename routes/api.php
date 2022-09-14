@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerificationCodesController;
+use App\Http\Controllers\AuthorizationsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Category;
@@ -30,6 +31,10 @@ Route::prefix('v1')->name('api.v1.')->group(function() {
     Route::post('user',[UserController::class,'store'])->name('user.store');
     // 验证码
     Route::post('verificationCodes',[VerificationCodesController::class,'store'])->name('verificationCodes.store');
+
+    // 登录
+    Route::post('authorizations', [AuthorizationsController::class, 'store'])
+                    ->name('authorizations.store');
 });
 
 
