@@ -20,6 +20,7 @@ use App\Models\Category;
 */
 
 Route::prefix('v1')->name('api.v1.')->group(function() {
+    Route::get('index',[UserController::class,'index']);
     Route::delete('category/{category}',[CategoryController::class,'destroy']);
     Route::get('category',[CategoryController::class,'index'])->name('category.index');
     Route::get('category/{category}', [CategoryController::class,'show'])->name('category.show');

@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
+    public function index(){
+        return 'hello';
+    }
     public function store(UserRequest $request)
     {
         $name = $request->name;
