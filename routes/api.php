@@ -7,6 +7,8 @@ use App\Http\Controllers\AuthorizationsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Category;
+use App\Models\User;
+use Laravel\Sanctum\Sanctum;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +38,16 @@ Route::prefix('v1')->name('api.v1.')->group(function() {
     // 登录
     Route::post('authorizations', [AuthorizationsController::class, 'store'])
                     ->name('authorizations.store');
+
+    Route::middleware('auth:sanctum')->any('/aaa',function(Request $request){
+        return $request->user();
+    });
+    Route::get('getToken',function(){
+        $user = User::findorFail(1);
+        // dd($user->tokens);
+        // Sanctum::actingAs($user,['*']);
+        return $user->createToken('test')->plainTextToken;
+    });
 });
 
 

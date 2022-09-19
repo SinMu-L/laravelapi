@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use Exception;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
@@ -44,6 +45,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
+
         return $this->success(collect($category)->toArray());
 
     }
