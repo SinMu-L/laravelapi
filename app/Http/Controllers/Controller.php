@@ -8,12 +8,12 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Response;
-use App\Helpers\CustomJsonResponse;
+use App\Helpers\CustomJsonResponseTrait;
 
 
 class Controller extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, CustomJsonResponse;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, CustomJsonResponseTrait;
 
 
 }
