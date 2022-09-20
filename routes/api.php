@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerificationCodesController;
 use App\Http\Controllers\AuthorizationsController;
+use App\Http\Middleware\StrictFormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Category;

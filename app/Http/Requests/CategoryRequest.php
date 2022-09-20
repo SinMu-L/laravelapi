@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\BaseRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 
 class CategoryRequest extends BaseRequest
@@ -50,5 +51,28 @@ class CategoryRequest extends BaseRequest
         ];
     }
 
+    // 验证器的后置函数
+    protected function passedValidation()
+    {
+
+        $error_key_array = $this->except(array_keys($this->rules()));
+        if (!empty($error_key_array)) {
+
+            $message = key($error_key_array) . ' 非法';
+            throw  new HttpResponseException($this->failed($message));
+        }
+
+    }
+
+    // 验证器的前置函数
+    protected function prepareForValidation()
+    {
+        $error_key_array = $this->except(array_keys($this->rules()));
+        if (!empty($error_key_array)) {
+
+            $message = key($error_key_array) . ' 非法';
+            throw  new HttpResponseException($this->failed($message));
+        }
+    }
 
 }

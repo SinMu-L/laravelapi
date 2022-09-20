@@ -10,15 +10,29 @@ use Facade\FlareClient\Http\Response;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
     use ValidatesRequests;
 
 
-    public function index(Request $request){
+    public function index(CategoryRequest $request){
+        // dd($request->rules());
+        $validator = Validator::make(
+            $request->all(),
+            $request->rules()
+        );
+        $validator->after(function ($validator){
+            if($this->somethingElseIsInvalid()){
+                $validator->errors()->add(
+                    'field', '234'
+                );
+            }
+        });
 
-       return $this->success(collect(Category::paginate())->toArray());
+        dd($request->safe()->all());
+        return $this->success(collect(Category::paginate())->toArray());
     }
 
     /**
